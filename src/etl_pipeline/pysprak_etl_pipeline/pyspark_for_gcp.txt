@@ -1,0 +1,63 @@
+PySpark Configuration for Google Cloud Storage (GCS)
+
+This document provides a detailed explanation of the SparkSession configuration used for interacting with Google Cloud Storage (GCS) in PySpark. This setup ensures that Spark can access and process data stored in GCS.
+
+SparkSession Configuration
+
+The following code snippet illustrates how to configure a SparkSession for GCS:
+
+spark = SparkSession.builder \
+    .appName("ImageNormalization") \
+    .config("spark.jars.packages", "com.google.cloud.bigdataoss:gcs-connector:hadoop2-2.2.5") \
+    .config("spark.hadoop.fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem") \
+    .config("spark.hadoop.google.cloud.auth.service.account.json.keyfile", "/path/to/your/service-account-key.json") \
+    .getOrCreate()
+
+1. SparkSession.builder
+
+- Purpose: 
+  - Initializes the process of creating a SparkSession.
+  - The SparkSession is the entry point for using Spark functionalities, such as working with DataFrames, running SQL queries, and performing distributed data processing.
+
+2. .appName("ImageNormalization")
+
+- Purpose: 
+  - Sets the name of the Spark application to "ImageNormalization".
+  - This name is used to identify your application in the Spark UI, logs, and cluster management tools. It helps in tracking, monitoring, and debugging your Spark job.
+
+3. .config("spark.jars.packages", "com.google.cloud.bigdataoss:gcs-connector:hadoop2-2.2.5")
+
+- Purpose: 
+  - Specifies additional JAR files needed for Spark to work with external systems.
+  - spark.jars.packages defines Maven coordinates for including additional dependencies.
+  - com.google.cloud.bigdataoss:gcs-connector:hadoop2-2.2.5 refers to the Google Cloud Storage (GCS) connector JAR. This connector enables Spark to read from and write to Google Cloud Storage.
+
+4. .config("spark.hadoop.fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
+
+- Purpose: 
+  - Configures Spark to use the GCS file system implementation.
+  - spark.hadoop.fs.gs.impl specifies the class that implements the file system interface for GCS.
+  - com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem is the class provided by Google that allows Spark to access GCS.
+
+5. .config("spark.hadoop.google.cloud.auth.service.account.json.keyfile", "/path/to/your/service-account-key.json")
+
+- Purpose: 
+  - Configures the authentication method for accessing GCS.
+  - spark.hadoop.google.cloud.auth.service.account.json.keyfile specifies the path to the service account key file used for authentication.
+  - /path/to/your/service-account-key.json should be replaced with the actual path to your Google Cloud service account key file. This file contains the credentials necessary to access your GCS buckets.
+
+6. .getOrCreate()
+
+- Purpose: 
+  - Creates a new SparkSession or retrieves an existing one if it already exists.
+  - This method initializes the Spark session with the specified configurations and ensures that only one SparkSession is active per application.
+
+Summary
+
+- Application Name (appName): Identifies your Spark job in the Spark UI and logs.
+- GCS Connector (spark.jars.packages): Provides the necessary JAR file to interact with Google Cloud Storage.
+- File System Implementation (spark.hadoop.fs.gs.impl): Specifies the class to access GCS.
+- Authentication Key (spark.hadoop.google.cloud.auth.service.account.json.keyfile): Provides credentials for accessing GCS.
+- Create or Retrieve Session (getOrCreate): Initializes or retrieves the SparkSession.
+
+By configuring these settings, Spark can properly communicate with Google Cloud Storage, allowing you to read and write data stored in GCS.

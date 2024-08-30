@@ -1,0 +1,12 @@
+Next steps:
+ - clean etl code and do a not pysprak version
+ - push some code
+ - data validation (TF_?_)
+ - training pipeline
+ - hypertuning pipeline --> MLflow
+
+.DS_Store
+
+/env_mlops_breast_cancer
+
+/data
